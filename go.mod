@@ -1,4 +1,4 @@
-module programmingpercy.tech/websockets-go
+module socket
 
 go 1.20
 
