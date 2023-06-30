@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Websockets GO</title>
+        <link rel="stylesheet" href="app.css">
+    </head>
+
+    <body>
+        <div class="center">
+            <h1>Amaizing Chat Application</h1>
+            <h3 id="chat-header">Currently in chat: general</h3>
+
+            <form id="chatrom-selection">
+                <label for="chatroom">Chatroom:</label>
+                <input type="text" id="chatroom" name="chatroom"><br><br>
+                <input type="submit" value="Change chatroom">
+            </form>
+        
+            <br>
+
+            <textarea class="messagearea" id="chatmessages" readonly name="chatmessages"
+            rows="4" cols="50" placeholder="Welcome to chatroom"></textarea>
+    
+            <br>
+
+            <form id="chatroom-message">
+                <label for="message">Message:</label>
+                <input type="text" id="message" name="message">
+                <input type="submit" value="send message">
+            </form>
+        </div>
+
+        <script src="./main.js"></script>
+
+    </body>
+</html>
