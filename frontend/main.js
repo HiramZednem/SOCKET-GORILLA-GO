@@ -26,6 +26,11 @@ window.onload = () => {
     if(window["WebSocket"]) {
         console.log("supports websockets");
         // this make a pettition to the endpoint from our api
+/* 
+        TODO: para el futuro desarrollo de esta onda, existen dos protocolos para conectarse,
+        el ws:// y el wss://, ahorita estamos trabajando con ws:// y este protocolo es de websockets no seguros, para 
+        desarrollar ahorita y sacar la demo, esta bien, pero para desarrollo tenemos que ver como manejar el wss
+*/
         let conn = new WebSocket("ws://" + document.location.host + "/ws");
     } else {
         alert('Browser does not support websockets');
