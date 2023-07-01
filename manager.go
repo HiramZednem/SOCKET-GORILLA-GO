@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"sync"
 
 	"github.com/gorilla/websocket"
 )
@@ -18,11 +19,16 @@ var (
 )
 
 type Manager struct {
-
+	clients ClientList
+	
+	// sync RWMutex sirve para manejar la concurrencia, para que no se alteren datos al mismo tiempo
+	sync.RWMutex
 }
 
 func NewManager() *Manager{
-	return &Manager{}
+	return &Manager{
+		clients: make(ClientList),
+	}
 }
 
 func (m *Manager) serveWS(w http.ResponseWriter, r *http.Request) {
@@ -38,5 +44,25 @@ func (m *Manager) serveWS(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	conn.Close()
+
+	//Una vez que abrimos una conexion, tenemos que saber que lo tenemos, por lo que vamos a crear un cliente
+	client := NewClient(conn, m)
+	m.addClient(client)
+}
+
+func (m *Manager) addClient(client *Client) {
+	m.Lock() // esto sirve para que no editemos dos archivos al mismo tiempo
+	defer m.Unlock()
+
+	m.clients[client] = true
+}
+
+func (m *Manager) removeClient(client *Client) {
+	m.Lock() // esto sirve para que no editemos dos archivos al mismo tiempo
+	defer m.Unlock()
+
+	if _, ok := m.clients[client]; ok {
+		client.connection.Close()
+		delete(m.clients, client)
+	}
 }
