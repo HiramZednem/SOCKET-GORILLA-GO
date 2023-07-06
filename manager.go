@@ -48,6 +48,9 @@ func (m *Manager) serveWS(w http.ResponseWriter, r *http.Request) {
 	//Una vez que abrimos una conexion, tenemos que saber que lo tenemos, por lo que vamos a crear un cliente
 	client := NewClient(conn, m)
 	m.addClient(client)
+
+	//Una vez que el cliente esta aniadido, le agregamos los procesos
+	go client.readMessages()
 }
 
 func (m *Manager) addClient(client *Client) {
